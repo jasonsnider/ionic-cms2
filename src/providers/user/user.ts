@@ -27,19 +27,19 @@ export class UserProvider {
     return this.http.get<User>(this.url);
   }
 
-  public getUser(): void{
-  console.log('Get User');
+  getUser(id: string): Observable<User> {
+    return this.http.get<User>(this.url + `/view/${id}`);
   }
 
-  public editUser(): void{
-    console.log('Edit User');
+  createUser (user: User): Observable<User> {
+    return this.http.post<User>(this.url + '/create', user, httpOptions);
   }
 
-  public createUser(): void{
-    console.log('Create User');
+  editUser (user: User): Observable<User> {
+    return this.http.post<User>(this.url + '/edit', user, httpOptions);
   }
 
-  public deleteUser(): void{
-    console.log('Delete User');
+  deleteUser (id: string): Observable<User> {
+    return this.http.get<User>(this.url + `/delete/${id}`);
   }
 }

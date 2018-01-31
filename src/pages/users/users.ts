@@ -1,46 +1,45 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { UserProvider } from '../../providers/user/user';
-
 import { User } from '../../models/user';
 
-/**
- * Generated class for the UsersPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { UserPage } from '../user/user';
+import { UserCreatePage } from '../user-create/user-create';
 
 @IonicPage()
 @Component({
   selector: 'page-users',
-  templateUrl: 'users.html',
+  templateUrl: 'users.html'
 })
 export class UsersPage {
 
-  users: User;
+  private loader: any;
+
+  public users: User;
+  public toUser = UserPage;
+  public toUserCreate = UserCreatePage;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private userProvider: UserProvider
+    private userProvider: UserProvider,
+    public loadingCtrl: LoadingController
   ) {
-  }
+    this.loader = this.loadingCtrl.create({
+      content: 'Loading...',
+    });
 
-  ionViewDidLoad() {
+    this.loader.present();
     this.getUsers();
-    this.userProvider.getUser();
-    this.userProvider.editUser();
-    this.userProvider.createUser();
-    this.userProvider.deleteUser();
   }
 
-  getUsers(): void {
+  private getUsers(): void {
     this.userProvider.getUsers().subscribe(
       (response) => {
         this.users = response.users,
-        console.log(this.users)
+        this.loader.dismiss()
       }
     );
   }
