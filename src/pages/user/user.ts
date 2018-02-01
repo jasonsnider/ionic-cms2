@@ -32,8 +32,7 @@ export class UserPage {
       });
 
       this.loader.present();
-
-      this.getUser(this.navParams.data);
+      this.getUser(this.navParams.data.id);
   }
 
   private getUser(id: string): void {
